@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('natural_people', function (Blueprint $table) {
             $table->id();
-            $table->string('email', 255)->unique()->nullable(false);
-            $table->string('password', 255)->unique()->nullable(false);
-            $table->enum('role', [Common::$roles['admin'], Common::$roles['moderator'], Common::$roles['juridical'], Common::$roles['natural'], Common::$roles['private']])->nullable();
-            $table->rememberToken();
+            $table->string('email', 255)->unique();
+            $table->string('first_name', 255)->nullable(false);
+            $table->string('last_name', 255)->nullable(false);
+            $table->string('patronymic', 255);
+
+            $table->foreign('email')->references('email')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('natural_people');
     }
 };
