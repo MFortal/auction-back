@@ -11,10 +11,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 });
 
-Route::post('/registration', [RegisterController::class, 'register']);
+Route::prefix('/registration')->group(function () {
+    Route::post('/', [RegisterController::class, 'register']);
+    Route::post('/juridial', [RegisterController::class, 'registerJuridial']);
+    Route::post('/natural', [RegisterController::class, 'registerNatural']);
+    Route::post('/private', [RegisterController::class, 'registerPrivate']);
+});
+
+
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::resources([
-    '/users' => UserController::class,
-    '/users/{email}' => UserController::class,
-]);
+Route::prefix('/users')->group(function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::get('/{email}', [UserController::class, 'show']);
+});
+
+Route::get('/test', [UserController::class, 'test']);

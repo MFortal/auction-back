@@ -28,4 +28,10 @@ class UserController extends Controller
     {
         return new UserResource(User::where('name', $email)->firstOrFail());
     }
+
+
+    public function test()
+    {
+        //dd(Common::$roles['admin']);
+    }
 }
